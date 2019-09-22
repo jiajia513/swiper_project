@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from user import api as user_api
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    # url(r'^admin/', admin.site.urls),
+    # 短信验证码登录
+    url(r'^user/get_vcode/',user_api.get_vcode),
+    url(r'^user/check_vcode/',user_api.check_vcode),
+    # 微博第三方登录
+    url(r'^weibo/wb_auth/',user_api.wb_auth),
+    url(r'^weibo/callback/',user_api.wb_callback),
+    # 获取个人资料、修改个人资料、上传头像
+    url(r'^user/get_profile/',user_api.get_profile),
+    url(r'^user/set_profile/',user_api.set_profile),
+    url(r'^user/upload_avatar/',user_api.upload_avatar),
+
 ]
