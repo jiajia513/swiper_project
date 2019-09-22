@@ -7,6 +7,7 @@ from common import stat, keys
 from libs.http import render_json
 from swiper_social import cfg
 from user import logics
+from user.forms import UserForm, ProfileForm
 from user.models import User
 
 ''' 获取短信验证码 '''
@@ -78,6 +79,37 @@ def wb_callback(request):
 
     return render_json(code=stat.OK)
 
+''' 获取个人资料、修改个人资料、上传头像 '''
+# 获取个人资料
+def get_profile(request):
+    profile_data = request.user.profile.to_dict()
+    return render_json(profile_data)
+
+# 修改个人资料
+def set_profile(request):
+    # 获取表单提交的数据
+    user_form = UserForm(request.POST)
+    profile_form = ProfileForm(request.POST)
+    # 检查User数据
+    if not user_form.is_valid():
+        return render_json(user_form.errors,code=stat.PROFILE_DATA_ERRR)
+    # 检查 Profile 的数据
+    if not profile_form.is_valid():
+        return render_json(profile_form.errors, code=stat.PROFILE_DATA_ERRR)
+
+    # 保存用户和交友资料的数据
+    user = request.user
+    user.__dict__.update(user_form.cleaned_data)
+    user.save()
+    
+    user.profile.__dict__.update(profile_form.cleaned_data)
+    user.profile.save()
 
 
+    return render_json()
+
+# 上传个人形象
+def upload_avatar(request):
+    
+    return render_json()
 
