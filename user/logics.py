@@ -1,12 +1,14 @@
 
 # 发送短信验证码
 import random
+import os
 
 import requests
 from django.core.cache import cache
 
 from common import keys
 from swiper_social import cfg
+from tasks import celery_app
 
 
 def send_vcode(phonenum):
@@ -72,5 +74,19 @@ def save_upload_avatar(user,upload_avatar):
         for chunk in upload_avatar.chunks():
             fp.write(chunk)
     return filename,filepath
+
+# 用celery异步处理上传头像问题
+@celery_app.task
+def handle_avatar(user,upload_avatar):
+
+    # 将文件保存到本地临时存储
+    filename, filepath = save_upload_avatar(user, upload_avatar)
+    # 将文件上传到七牛云
+    avatar_url = (filename, filepath)
+    # 将七牛获取的图片路径avatar_url保存到数据库
+    user.avatar = avatar_url
+    user.save()
+    # 删除本地存储的文件
+    os.remove(filepath)
 
 
