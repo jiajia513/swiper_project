@@ -63,5 +63,14 @@ def get_user_info(access_token,wb_uid):
         return user_info
     return None
 
+''' 将头像文件保存到本地tmp文件夹 '''
+def save_upload_avatar(user,upload_avatar):
+    filename = 'Avatar-%s'%user.id
+    filepath = '/tmp/%s'%filename
+
+    with open(filepath,'wb',) as fp:
+        for chunk in upload_avatar.chunks():
+            fp.write(chunk)
+    return filename,filepath
 
 

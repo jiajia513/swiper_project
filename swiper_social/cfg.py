@@ -1,5 +1,11 @@
 ''' 程序逻辑配置和第三方平台配置 '''
 
+# 七牛云配置
+QN_ACCESS_KEY = 'kEM0sRR-meB92XU43_a6xZqhiyyTuu5yreGCbFtw'
+QN_SECRET_KEY = 'QxTKqgnOb_UVldphU261qu9IdzmjkgGHh6GQVPPy'
+QN_BASE_URL = 'http://py4hx1gc8.bkt.clouddn.com'
+QN_BUCKET = 'swiper999'
+
 # 云之迅配置
 from urllib.parse import urlencode
 

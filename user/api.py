@@ -1,3 +1,5 @@
+import os
+
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -5,6 +7,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from common import stat, keys
 from libs.http import render_json
+from libs.qn_cloud import upload_to_qn
 from swiper_social import cfg
 from user import logics
 from user.forms import UserForm, ProfileForm
@@ -110,6 +113,17 @@ def set_profile(request):
 
 # 上传个人形象
 def upload_avatar(request):
-    
+    # 从前端获取上传的头像文件
+    avatar = request.FILES.get('avatar')
+    # 将文件保存到本地临时存储
+    filename,filepath = logics.save_upload_avatar(request.user,avatar)
+    # 将文件上传到七牛云
+    avatar_url = (filename,filepath)
+    # 将七牛获取的图片路径avatar_url保存到数据库
+    request.user.avatar = avatar_url
+    request.user.save()
+    # 删除本地存储的文件
+    os.remove(filepath)
+
     return render_json()
 
