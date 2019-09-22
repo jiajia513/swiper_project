@@ -1,4 +1,4 @@
-import os
+
 
 from django.core.cache import cache
 from django.http import JsonResponse
@@ -115,15 +115,19 @@ def set_profile(request):
 def upload_avatar(request):
     # 从前端获取上传的头像文件
     avatar = request.FILES.get('avatar')
-    # 将文件保存到本地临时存储
-    filename,filepath = logics.save_upload_avatar(request.user,avatar)
-    # 将文件上传到七牛云
-    avatar_url = (filename,filepath)
-    # 将七牛获取的图片路径avatar_url保存到数据库
-    request.user.avatar = avatar_url
-    request.user.save()
-    # 删除本地存储的文件
-    os.remove(filepath)
+
+    # 异步处理，将下面上传文件操作放到logics中，通过装饰器引用celery异步处理
+    # # 将文件保存到本地临时存储
+    # filename,filepath = logics.save_upload_avatar(request.user,avatar)
+    # # 将文件上传到七牛云
+    # avatar_url = (filename,filepath)
+    # # 将七牛获取的图片路径avatar_url保存到数据库
+    # request.user.avatar = avatar_url
+    # request.user.save()
+    # # 删除本地存储的文件
+    # os.remove(filepath)
+
+    logics.handle_avatar.delay(request.user,avatar)
 
     return render_json()
 
