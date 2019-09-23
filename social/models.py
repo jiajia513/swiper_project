@@ -26,7 +26,7 @@ class Swiped(models.Model):
     def swipe(cls,uid,sid,stype):
         if stype not in ['like','superlike','dislike']:
             raise stat.SwipeTypeErr
-        if cls.objects.filter(uid=uid,sid=sid).exists():
+        elif cls.objects.filter(uid=uid,sid=sid).exists():
             raise stat.SwipeRepeatErr
 
         return cls.objects.create(uid=uid,sid=sid,stype=stype)

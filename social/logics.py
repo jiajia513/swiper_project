@@ -25,7 +25,8 @@ def rcmd(user):
 
 def like_someone(user,sid):
     ''' 喜欢某人，添加记录并判断是否配对 '''
-    Swiped.objects.create(uid=user.id, sid=sid, stype='like')  # 添加滑动记录
+    # Swiped.objects.create(uid=user.id, sid=sid, stype='like')  # 添加滑动记录
+    Swiped.swipe(user.id, sid, 'like')
 
     # 判断对方是否也喜欢过自己，如果喜欢就创建好友关系
     if Swiped.is_like(sid,user.id):  # 将uid和sid反过来
