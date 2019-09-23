@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from user import api as user_api
+from social import api as social_api
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
@@ -29,5 +30,11 @@ urlpatterns = [
     url(r'^user/get_profile/',user_api.get_profile),
     url(r'^user/set_profile/',user_api.set_profile),
     url(r'^user/upload_avatar/',user_api.upload_avatar),
+
+    # social模块
+    # 获取推荐用户
+    url(r'^social/get_rcmd_users/',social_api.get_rcmd_users),
+    # 右滑喜欢
+    url(r'^social/like/',social_api.like),
 
 ]
