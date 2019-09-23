@@ -1,5 +1,13 @@
 ''' 程序逻辑配置和第三方平台配置 '''
 
+# redis相关配置
+REDIS = {
+    'host': 'localhost',
+    'port': 6379,
+    'db': 3,
+    'password':123456,
+}
+
 # 七牛云配置
 QN_ACCESS_KEY = 'kEM0sRR-meB92XU43_a6xZqhiyyTuu5yreGCbFtw'
 QN_SECRET_KEY = 'QxTKqgnOb_UVldphU261qu9IdzmjkgGHh6GQVPPy'

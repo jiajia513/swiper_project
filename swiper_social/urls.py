@@ -36,5 +36,7 @@ urlpatterns = [
     url(r'^social/get_rcmd_users/',social_api.get_rcmd_users),
     # 右滑喜欢
     url(r'^social/like/',social_api.like),
+    # 上滑超级喜欢
+    url(r'^social/superlike/',social_api.superlike)
 
 ]
