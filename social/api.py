@@ -9,7 +9,7 @@ def get_rcmd_users(request):
     return render_json(data = result)
 
 def like(request):
-    sid = request.POST.get('sid') # 获取喜欢的用户id
+    sid = int(request.POST.get('sid')) # 获取喜欢的用户id
     # 添加滑动记录,判断是否对方也喜欢过自己
     is_matched = logics.like_someone(request.user,sid)
     return render_json({'matched':is_matched})
