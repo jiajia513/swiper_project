@@ -37,6 +37,8 @@ urlpatterns = [
     # 右滑喜欢
     url(r'^social/like/',social_api.like),
     # 上滑超级喜欢
-    url(r'^social/superlike/',social_api.superlike)
+    url(r'^social/superlike/',social_api.superlike),
+    # 左滑不喜欢
+    url(r'^social/dislike/',social_api.dislike)
 
 ]

@@ -16,7 +16,14 @@ def like(request):
     return render_json({'matched':is_matched})
 
 def superlike(request):
+    ''' 上滑 超级喜欢 '''
     sid = int(request.POST.get('sid'))  # 获取超级喜欢的用户id
     is_matched = logics.superlike_someone(request.user, sid)
     return render_json({'matched': is_matched})
+
+def dislike(request):
+    ''' 左滑不喜欢 '''
+    sid = int(request.POST.get('sid'))
+    logics.dislike_someone(request.user, sid)
+    return render_json()
 
