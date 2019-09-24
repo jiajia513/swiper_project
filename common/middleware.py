@@ -23,3 +23,12 @@ class AuthorizeMiddleware(MiddlewareMixin):
 
         # 获取当前用户 将用户信息绑定在request对象上
         request.user = User.objects.get(id=uid)
+
+
+# 捕捉异常
+class LogicErrMiddleware(MiddlewareMixin):
+    ''' 逻辑异常中间件 '''
+    def process_exception(self,request,exception):
+        if isinstance(exception,stat.LogicErr):
+            return render_json(code=exception.code,data=exception.data)
+
