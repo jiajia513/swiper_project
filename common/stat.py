@@ -29,3 +29,6 @@ UserDataErrr = gen_logic_err('UserDataErrr', 1005)      # 用户数据错误
 ProfileDataErrr = gen_logic_err('ProfileDataErrr', 1006)  # 用户交友资料数据错误
 SwipeTypeErr = gen_logic_err('SwipeTypeErr', 1007)      # 滑动类型错误
 SwipeRepeatErr = gen_logic_err('SwipeRepeatErr',1008) # 重复滑动错误
+RewindLimit = gen_logic_err('RewindLimit', 1009)        # 反悔达到上限
+RewindTimeout = gen_logic_err('RewindTimeout', 1010)    # 反悔超时
+PermissionLimit = gen_logic_err('PermissionLimit', 1011)  # 用户没有相应的权限

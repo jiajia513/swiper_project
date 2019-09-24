@@ -43,3 +43,9 @@ def friend_list(request):
     result = [user.to_dict() for user in users]
     return render_json(result)
 
+def rewind(request):
+    ''' 反悔接口 '''
+    logics.rewind_swiped(request.user)
+
+    return render_json()
+

@@ -1,5 +1,9 @@
 ''' 程序逻辑配置和第三方平台配置 '''
 
+# 反悔相关配置
+DAILY_REWIND = 3  # 每日反悔次数
+REWIND_TIMEOUT = 5 * 60  # 可反悔的滑动记录的秒数
+
 # redis相关配置
 REDIS = {
     'host': 'localhost',

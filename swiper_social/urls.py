@@ -44,5 +44,7 @@ urlpatterns = [
     url(r'^social/show_liked_me/',social_api.show_liked_me),
     # 获取好友列表
     url(r'^social/friend_list/',social_api.friend_list),
+    # 反悔
+    url(r'^social/rewind/',social_api.rewind),
 
 ]
