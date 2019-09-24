@@ -1,5 +1,7 @@
 from libs.http import render_json
 from social import logics
+from social.models import Swiped, Friend
+from user.models import User
 
 
 def get_rcmd_users(request):
@@ -26,4 +28,18 @@ def dislike(request):
     sid = int(request.POST.get('sid'))
     logics.dislike_someone(request.user, sid)
     return render_json()
+
+def show_liked_me(request):
+    ''' 查看谁喜欢过我 '''
+    user_id_list = Swiped.who_liked_me(request.user.id)
+    users = User.objects.filter(id__in=user_id_list)
+    result = [user.to_dict() for user in users]
+    return render_json(result)
+
+def friend_list(request):
+    ''' 好友列表 '''
+    friend_id_list = Friend.friend_ids(request.user.id)
+    users = User.objects.filter(id__in=friend_id_list)
+    result = [user.to_dict() for user in users]
+    return render_json(result)
 

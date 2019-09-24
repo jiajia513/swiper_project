@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+from django.db.models import Q
+
 from common import stat
 
 
@@ -31,6 +33,12 @@ class Swiped(models.Model):
 
         return cls.objects.create(uid=uid,sid=sid,stype=stype)
 
+    @classmethod
+    def who_liked_me(cls, uid):
+        ''' 取出喜欢自己或超级喜欢自己的人 '''
+        return cls.objects.filter(sid=uid,stype__in=['like','superlke']).values_list('uid',flat=True)
+
+
 class Friend(models.Model):
     '''好友关系表'''
     uid1 = models.IntegerField()
@@ -42,3 +50,15 @@ class Friend(models.Model):
         # 以防每次创建好友关系都去判断sid,uid
         uid1, uid2 = (sid, uid) if uid > sid else (uid, sid)
         cls.objects.get_or_create(uid1=uid1, uid2=uid2)
+
+    @classmethod
+    def friend_ids(cls, uid):
+        ''' 查询自己的所有的好友的ID '''
+        condition = Q(uid1=uid) | Q(uid2=uid)
+        friend_relatons = cls.objects.filter(condition)
+        uid_list = []
+        for relation in friend_relatons:
+            friend_id = relation.uid1 if relation.uid2 == uid else relation.uid2
+            uid_list.append(friend_id)
+        return uid_list
+

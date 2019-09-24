@@ -39,6 +39,10 @@ urlpatterns = [
     # 上滑超级喜欢
     url(r'^social/superlike/',social_api.superlike),
     # 左滑不喜欢
-    url(r'^social/dislike/',social_api.dislike)
+    url(r'^social/dislike/',social_api.dislike),
+    # 查看谁喜欢我
+    url(r'^social/show_liked_me/',social_api.show_liked_me),
+    # 获取好友列表
+    url(r'^social/friend_list/',social_api.friend_list),
 
 ]
