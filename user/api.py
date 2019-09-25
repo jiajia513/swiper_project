@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from common import stat, keys
+from libs.cache import rds
 from libs.http import render_json
 from libs.qn_cloud import upload_to_qn
 from swiper_social import cfg
@@ -85,7 +86,14 @@ def wb_callback(request):
 ''' 获取个人资料、修改个人资料、上传头像 '''
 # 获取个人资料
 def get_profile(request):
-    profile_data = request.user.profile.to_dict()
+    key = keys.PROFILE_KEY % request.user.id
+    profile_data = rds.get(key)
+    print('先从redis中获取数据')
+    if profile_data is None:
+        profile_data = request.user.profile.to_dict()
+        print('缓存中没有，从数据库中获取')
+        rds.set(key,profile_data)
+        print('将取出的数据添加到缓存中')
     return render_json(profile_data)
 
 # 修改个人资料
@@ -107,6 +115,10 @@ def set_profile(request):
     
     user.profile.__dict__.update(profile_form.cleaned_data)
     user.profile.save()
+
+    # 修改缓存
+    key = keys.PROFILE_KEY % request.user.id
+    rds.set(key,user.profile.to_dict())
 
 
     return render_json()
